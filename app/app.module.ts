@@ -2,7 +2,6 @@ import { NgModule, APP_INITIALIZER, InjectionToken } from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 
 import { AppComponent } from '../app.component';
-import { CoreModule } from '../core/core.module';
 import { CoreService, CORE_CONFIG } from '../core/core.service';
 import { ConfigService, AppConfig, APP_CONFIG } from '../config/config.service';
 
@@ -12,12 +11,12 @@ function loadConfigurationData(configService: ConfigService): () => Promise<any>
 }
 
 function appConfigInitializerFactory(configService: ConfigService) {
-  console.log('APP_CONFIG: Providing following config: ', configService.appConfig);
+  console.log('app module: Providing APP_CONFIG config: ', configService.appConfig);
   return configService.appConfig;
 }
 
 function loadCoreConfig(appConfig: AppConfig) {
-  console.log('core module: Loading core config with following config: ', appConfig);
+  console.log('app module: Providing CORE_CONFIG config: ', appConfig);
   return {
     coreSetting: appConfig.mySetting
   };

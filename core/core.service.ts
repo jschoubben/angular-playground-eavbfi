@@ -1,6 +1,5 @@
 import { Injectable, Inject, InjectionToken } from '@angular/core';
 
-
 export const CORE_CONFIG = new InjectionToken<any>('Core config');
 
 @Injectable({
