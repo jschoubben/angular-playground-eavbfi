@@ -1,20 +1,21 @@
 import { Injectable, Inject, InjectionToken } from '@angular/core';
 
-export const CORE_CONFIG = new InjectionToken<any>('Core config');
+export interface CoreConfig {
+  mySetting: string;
+}
+export const CORE_CONFIG = new InjectionToken<CoreConfig>('Core config');
 
 @Injectable({
   providedIn: 'root'
 })
 export class CoreService {
-  config: any;
 
-  constructor(@Inject(CORE_CONFIG) coreConfig: any) {
+  constructor(@Inject(CORE_CONFIG) private config: CoreConfig) {
     console.log('core service:  Constructing service');
-    this.config = coreConfig;
-    this.call();
+    this.initialize();
   }
 
-  private call() {
+  initialize() {
     console.log('core service:  Exectuing "call" method');
     console.log(this.config);
   }

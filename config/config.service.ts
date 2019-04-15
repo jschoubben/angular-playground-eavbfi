@@ -1,28 +1,61 @@
-import { Injectable, Inject, InjectionToken } from '@angular/core';
+import {Injectable, InjectionToken} from "@angular/core";
 
-export interface AppConfig {
-  mySetting: string;
+export class AppConfig {
+  mySetting: string; 
+    
+  constructor(data: { 
+    mySetting: string 
+  }) { 
+    this.mySetting = data.mySetting;
+  }
 }
-
-export const APP_CONFIG = new InjectionToken<any>('App config');
+export const APP_CONFIG = new InjectionToken<AppConfig>('App config');
 
 @Injectable()
-export class ConfigService {
-  appConfig: AppConfig;
+export class Config {
 
-  constructor() {
-    console.log('config service: Constructing service');}
+    private static cache = {};
 
-  load() {
-    console.log('config service: loading configuration');
-    return new Promise((resolve, reject) => {
-      this.appConfig = {
-        mySetting: 'myValue'
-      }
-      setTimeout(() => {
-        console.log('config service: Configuration loaded');
-        resolve(true);
-      }, 1000);
-    });
-  }
+    constructor(private data: any) { }
+
+    public static loadInstance(jsonFile: string) {
+        return new Promise((resolve, reject) => {
+            var xobj = new XMLHttpRequest();
+            xobj.overrideMimeType("application/json");
+            xobj.open('GET', jsonFile, true);
+            xobj.onreadystatechange = () => {
+                if (xobj.readyState == 4) {
+                    if (xobj.status == 200) {
+                        console.log(xobj.responseText);
+                        //this.cache[jsonFile] = new Config(JSON.parse(xobj.responseText));
+                        this.cache[jsonFile] = new AppConfig({
+                          mySetting: "myValue"
+                        });
+                        resolve();
+                    }
+                    else {
+                        reject(`Could not load file '${jsonFile}': ${xobj.status}`);
+                    }
+                }
+            }
+            xobj.send(null);
+        });
+    }
+
+    public static getInstance(jsonFile: string) {
+        if (jsonFile in this.cache) {
+            return this.cache[jsonFile];
+        }
+        throw `Could not find config '${jsonFile}', did you load it?`;
+    }
+
+    public get(key: string) {
+        if (this.data == null) {
+            return null;
+        }
+        if (key in this.data) {
+            return this.data[key];
+        }
+        return null;
+    }
 }
