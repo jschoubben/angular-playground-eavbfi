@@ -9,14 +9,15 @@ export const CORE_CONFIG = new InjectionToken<CoreConfig>('Core config');
   providedIn: 'root'
 })
 export class CoreService {
+  config: CoreConfig
 
-  constructor(@Inject(CORE_CONFIG) private config: CoreConfig) {
+  constructor() {
     console.log('core service:  Constructing service');
-    this.initialize();
   }
 
-  initialize() {
+  initialize(config: CoreConfig) {
     console.log('core service:  Exectuing "call" method');
+    this.config = config;
     console.log(this.config);
   }
 }
