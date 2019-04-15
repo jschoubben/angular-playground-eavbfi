@@ -14,7 +14,7 @@ const appConfig = Config.getInstance('config.json');
   imports: [
     BrowserModule,
     CoreModule.forRoot({
-      mySetting: appConfig.mySetting 
+      mySetting: appConfig.mySetting  
     })
   ],
   providers: [

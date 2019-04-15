@@ -21,11 +21,11 @@ export class Config {
     public static loadInstance(jsonFile: string) {
         return new Promise((resolve, reject) => {
           setTimeout(function() {
-            this.cache[jsonFile] = new AppConfig({
+            Config.cache[jsonFile] = new AppConfig({
               mySetting: 'my value'
             });
             resolve();
-          });
+          }, 1000);
             // var xobj = new XMLHttpRequest();
             // xobj.overrideMimeType("application/json");
             // xobj.open('GET', jsonFile, true);
