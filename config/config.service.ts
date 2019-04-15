@@ -20,25 +20,31 @@ export class Config {
 
     public static loadInstance(jsonFile: string) {
         return new Promise((resolve, reject) => {
-            var xobj = new XMLHttpRequest();
-            xobj.overrideMimeType("application/json");
-            xobj.open('GET', jsonFile, true);
-            xobj.onreadystatechange = () => {
-                if (xobj.readyState == 4) {
-                    if (xobj.status == 200) {
-                        console.log(xobj.responseText);
-                        //this.cache[jsonFile] = new Config(JSON.parse(xobj.responseText));
-                        this.cache[jsonFile] = new AppConfig({
-                          mySetting: "myValue"
-                        });
-                        resolve();
-                    }
-                    else {
-                        reject(`Could not load file '${jsonFile}': ${xobj.status}`);
-                    }
-                }
-            }
-            xobj.send(null);
+          setTimeout(function() {
+            this.cache[jsonFile] = new AppConfig({
+              mySetting: 'my value'
+            });
+            resolve();
+          });
+            // var xobj = new XMLHttpRequest();
+            // xobj.overrideMimeType("application/json");
+            // xobj.open('GET', jsonFile, true);
+            // xobj.onreadystatechange = () => {
+            //     if (xobj.readyState == 4) {
+            //         if (xobj.status == 200) {
+            //             console.log(xobj.responseText);
+            //             //this.cache[jsonFile] = new Config(JSON.parse(xobj.responseText));
+            //             this.cache[jsonFile] = new AppConfig({
+            //               mySetting: "myValue"
+            //             });
+            //             resolve();
+            //         }
+            //         else {
+            //             reject(`Could not load file '${jsonFile}': ${xobj.status}`);
+            //         }
+            //     }
+            // }
+            // xobj.send(null);
         });
     }
 
